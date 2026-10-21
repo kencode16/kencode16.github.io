@@ -33,22 +33,24 @@ const { contact } = profile;
     {profile.about[lang].map((paragraph) => <p>{paragraph}</p>)}
   </section>
 
-  <section id="certifications">
-    <h2>{t.certifications}</h2>
-    <div class="grid">
-      {
-        profile.certifications.map((cert) => (
-          <div class="card cert">
-            <h3>{cert.name[lang]}</h3>
-            <span class:list={['badge', cert.status]}>{t.certStatus[cert.status]}</span>
-            <p>
-              {cert.issuer} · {cert.year}
-            </p>
-          </div>
-        ))
-      }
-    </div>
-  </section>
+  {
+    profile.certifications.length > 0 && (
+      <section id="certifications">
+        <h2>{t.certifications}</h2>
+        <div class="grid">
+          {profile.certifications.map((cert) => (
+            <div class="card cert">
+              <h3>{cert.name[lang]}</h3>
+              <span class:list={['badge', cert.status]}>{t.certStatus[cert.status]}</span>
+              <p>
+                {cert.issuer} · {cert.year}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   <section id="skills">
     <h2>{t.skills}</h2>

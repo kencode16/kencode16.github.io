@@ -1,8 +1,15 @@
 // 網站上的個人資料都集中在這個檔案，中英文各一份。
 // All personal details shown on the site live here, in both languages.
 
+type Certification = {
+  name: { zh: string; en: string };
+  issuer: string;
+  year: string;
+  status: 'earned' | 'inProgress';
+};
+
 export const profile = {
-  name: { zh: '【你的名字】', en: '[Your Name]' },
+  name: { zh: 'kencode16', en: 'kencode16' },
   title: {
     zh: '資訊安全稽核｜ISO/IEC 27001',
     en: 'Information Security Auditor | ISO/IEC 27001',
@@ -21,14 +28,14 @@ export const profile = {
       'Along the way I noticed that a lot of security risk hides in undocumented configurations and devices nobody has inventoried. That is why I am studying ISO/IEC 27001 systematically: to bring a technical background into security auditing, so the audit covers what is actually running, not only the paperwork.',
     ],
   },
-  certifications: [
-    {
-      name: { zh: '【證照名稱，例：ISO/IEC 27001:2022 主導稽核員】', en: '[Certification, e.g. ISO/IEC 27001:2022 Lead Auditor]' },
-      issuer: '【發證機構 / Issuer】',
-      year: '【年份 / Year】',
-      status: 'inProgress',
-    },
-  ] as const,
+  // 範例 / Example:
+  // {
+  //   name: { zh: 'ISO/IEC 27001:2022 主導稽核員', en: 'ISO/IEC 27001:2022 Lead Auditor' },
+  //   issuer: '發證機構 / Issuer',
+  //   year: '2026',
+  //   status: 'earned', // 或 'inProgress'
+  // },
+  certifications: [] as Certification[],
   skills: [
     {
       group: { zh: '資安管理與稽核', en: 'ISMS & auditing' },
@@ -90,7 +97,7 @@ export const profile = {
     },
   ],
   contact: {
-    email: '【你的 Email】',
+    email: '',
     github: 'https://github.com/kencode16',
     linkedin: '',
   },
