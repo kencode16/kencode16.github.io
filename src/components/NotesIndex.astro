@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import NoteList from './NoteList.astro';
+import { localize, otherLang, ui, type Lang } from '../i18n';
+import { getNotes } from '../lib/notes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const notes = await getNotes(lang);
+---
+
+<Base lang={lang} altPath={localize(otherLang(lang), '/notes/')} title={t.allNotes} description={t.notesIntro}>
+  <section>
+    <h1>{t.allNotes}</h1>
+    <p class="section-intro">{t.notesIntro}</p>
+    <NoteList lang={lang} notes={notes} />
+  </section>
+</Base>

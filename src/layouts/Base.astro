@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import { htmlLang, localize, otherLang, ui, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  altPath: string;
+  title?: string;
+  description?: string;
+}
+
+const { lang, altPath, title, description = profile.tagline[lang] } = Astro.props;
+const t = ui[lang];
+const alt = otherLang(lang);
+const name = profile.name[lang];
+const pageTitle = title ? `${title}｜${name}` : `${name}｜${profile.title[lang]}`;
+const url = (path: string) => new URL(path, Astro.site).href;
+const paths = { [lang]: Astro.url.pathname, [alt]: altPath } as Record<Lang, string>;
+---
+
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={url(Astro.url.pathname)} />
+    <link rel="alternate" hreflang="zh-Hant" href={url(paths.zh)} />
+    <link rel="alternate" hreflang="en" href={url(paths.en)} />
+    <link rel="alternate" hreflang="x-default" href={url(paths.zh)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url(Astro.url.pathname)} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href={localize(lang, '/')}>{name}</a>
+        <nav aria-label="Main">
+          <a href={localize(lang, '/#about')}>{t.nav.about}</a>
+          <a href={localize(lang, '/#skills')}>{t.nav.skills}</a>
+          <a href={localize(lang, '/notes/')}>{t.nav.notes}</a>
+          <a href={localize(lang, '/#contact')}>{t.nav.contact}</a>
+          <a class="lang-switch" href={altPath} hreflang={htmlLang[alt]} lang={htmlLang[alt]} title={t.switchTitle}>
+            {t.switchLabel}
+          </a>
+        </nav>
+      </div>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <p>© {new Date().getFullYear()} {name} · {t.footer}</p>
+      </div>
+    </footer>
+  </body>
+</html>

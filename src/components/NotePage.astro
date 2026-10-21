@@ -1,0 +1,55 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatDate, localize, otherLang, ui, type Lang } from '../i18n';
+import { getNotes, slugOf, type Note } from '../lib/notes';
+
+interface Props {
+  lang: Lang;
+  note: Note;
+}
+
+const { lang, note } = Astro.props;
+const t = ui[lang];
+const { title, description, date, updated, tags, controls } = note.data;
+const { Content } = await render(note);
+const alt = otherLang(lang);
+const slug = slugOf(note);
+const translated = (await getNotes(alt)).some((other) => slugOf(other) === slug);
+const altPath = localize(alt, translated ? `/notes/${slug}/` : '/notes/');
+---
+
+<Base lang={lang} altPath={altPath} title={title} description={description}>
+  <article class="note">
+    <a class="back" href={localize(lang, '/notes/')}>← {t.backToNotes}</a>
+    <header class="note-header">
+      <h1>{title}</h1>
+      <p class="meta">
+        {t.created} {formatDate(date)}
+        {updated && ` · ${t.updated} ${formatDate(updated)}`}
+      </p>
+      <ul class="tags">
+        {tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+      {
+        controls.length > 0 && (
+          <p class="meta">
+            {t.relatedControls}{t.colon}
+            {controls.map((control) => (
+              <span class="badge control">{control}</span>
+            ))}
+          </p>
+        )
+      }
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .badge.control {
+    margin: 0 4px 4px 0;
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import NoteList from './NoteList.astro';
+import { profile } from '../data/profile';
+import { localize, otherLang, ui, type Lang } from '../i18n';
+import { getNotes, slugOf } from '../lib/notes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const notes = await getNotes(lang);
+const titleOf = new Map(notes.map((note) => [slugOf(note), note.data.title]));
+const { contact } = profile;
+---
+
+<Base lang={lang} altPath={localize(otherLang(lang), '/')}>
+  <section class="hero">
+    <span class="eyebrow">{profile.title[lang]}</span>
+    <h1>{profile.name[lang]}</h1>
+    <p class="tagline">{profile.tagline[lang]}</p>
+    <div class="actions">
+      <a class="button primary" href={localize(lang, '/notes/')}>{t.readNotes}</a>
+      <a class="button" href="#contact">{t.contactMe}</a>
+      {profile.resumeUrl && <a class="button" href={profile.resumeUrl}>{t.resume}</a>}
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>{t.about}</h2>
+    {profile.about[lang].map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  <section id="certifications">
+    <h2>{t.certifications}</h2>
+    <div class="grid">
+      {
+        profile.certifications.map((cert) => (
+          <div class="card cert">
+            <h3>{cert.name[lang]}</h3>
+            <span class:list={['badge', cert.status]}>{t.certStatus[cert.status]}</span>
+            <p>
+              {cert.issuer} · {cert.year}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>{t.skills}</h2>
+    <p class="section-intro">{t.skillsIntro}</p>
+    <div class="grid wide">
+      {
+        profile.skills.map((skill) => (
+          <div class="card">
+            <h3>{skill.group[lang]}</h3>
+            <ul>
+              {skill.items[lang].map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <p class="evidence">
+              {t.evidence}{t.colon}
+              {skill.evidence
+                .filter((slug) => titleOf.has(slug))
+                .map((slug, i) => (
+                  <>
+                    {i > 0 && t.listSep}
+                    <a href={localize(lang, `/notes/${slug}/`)}>{titleOf.get(slug)}</a>
+                  </>
+                ))}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="notes">
+    <h2>{t.latestNotes}</h2>
+    <p class="section-intro">{t.notesIntro}</p>
+    <NoteList lang={lang} notes={notes.slice(0, 3)} />
+    <p><a href={localize(lang, '/notes/')}>{t.allNotes} →</a></p>
+  </section>
+
+  <section id="contact">
+    <h2>{t.contact}</h2>
+    <p class="section-intro">{t.contactIntro}</p>
+    <ul class="contact-list">
+      {
+        contact.email && (
+          <li>
+            <span>Email</span>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </li>
+        )
+      }
+      {
+        contact.github && (
+          <li>
+            <span>GitHub</span>
+            <a href={contact.github}>{contact.github.replace('https://', '')}</a>
+          </li>
+        )
+      }
+      {
+        contact.linkedin && (
+          <li>
+            <span>LinkedIn</span>
+            <a href={contact.linkedin}>{contact.linkedin.replace('https://', '')}</a>
+          </li>
+        )
+      }
+    </ul>
+  </section>
+</Base>

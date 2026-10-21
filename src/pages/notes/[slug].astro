@@ -1,0 +1,13 @@
+---
+import NotePage from '../../components/NotePage.astro';
+import { getNotes, slugOf, type Note } from '../../lib/notes';
+
+export async function getStaticPaths() {
+  const notes = await getNotes('zh');
+  return notes.map((note) => ({ params: { slug: slugOf(note) }, props: { note } }));
+}
+
+const { note } = Astro.props as { note: Note };
+---
+
+<NotePage lang="zh" note={note} />

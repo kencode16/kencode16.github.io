@@ -1,0 +1,36 @@
+---
+import { formatDate, localize, type Lang } from '../i18n';
+import { slugOf, type Note } from '../lib/notes';
+
+interface Props {
+  lang: Lang;
+  notes: Note[];
+}
+
+const { lang, notes } = Astro.props;
+---
+
+<ul class="note-list">
+  {
+    notes.map((note) => (
+      <li class="card">
+        <a href={localize(lang, `/notes/${slugOf(note)}/`)}>
+          <h3>{note.data.title}</h3>
+          <p>{note.data.description}</p>
+          <span class="meta">{formatDate(note.data.updated ?? note.data.date)}</span>
+        </a>
+        <ul class="tags">
+          {note.data.tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .note-list a {
+    margin-bottom: 10px;
+  }
+</style>
