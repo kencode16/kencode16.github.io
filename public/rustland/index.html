@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>鏽境 Rustland</title>
-<meta name="description" content="鏽境：一台沉睡 287 年的維修機器人，穿越廢墟尋找中央電源的動作冒險遊戲。">
+<meta name="description" content="鏽境：一台沉睡 287 年的維修機器人，穿越廢墟與機械森林、尋找中央電源的動作冒險遊戲。">
 <meta name="theme-color" content="#0b0908">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -47,7 +47,7 @@
 <div id="title" class="overlay show">
   <h1>鏽境</h1>
   <div class="sub">RUSTLAND</div>
-  <div class="chapter">第一章　甦醒</div>
+  <div class="chapter" id="titleChapter">第一章　甦醒</div>
   <button class="menu" id="btnContinue" style="display:none">繼續</button>
   <button class="menu" id="btnNew">新遊戲</button>
   <p class="hint" id="howto"></p>
@@ -56,6 +56,7 @@
 <div id="pause" class="overlay">
   <div class="end-title">暫停</div>
   <button class="menu" id="btnResume">繼續遊戲</button>
+  <button class="menu ghost" id="btnMusic">音樂：開</button>
   <button class="menu ghost" id="btnTitle">回到標題</button>
   <p class="hint">進度會在碰到充電座、取得道具時自動儲存。</p>
 </div>
@@ -68,13 +69,17 @@
 </div>
 
 <div id="end" class="overlay">
-  <div class="chapter">第一章　甦醒</div>
+  <div class="chapter" id="endChapter">第一章　甦醒</div>
   <div class="end-title">— 完 —</div>
   <div class="stats" id="endStats"></div>
-  <div class="soon">第二章「機械森林」製作中</div>
+  <div class="soon" id="soon">下一章製作中</div>
+  <button class="menu" id="btnNext">前往下一章</button>
   <button class="menu ghost" id="btnEndTitle">回到標題</button>
 </div>
 
+<script src="music.js"></script>
+<script src="ch1.js"></script>
+<script src="ch2.js"></script>
 <script src="game.js"></script>
 <script>
   if ('serviceWorker' in navigator) {

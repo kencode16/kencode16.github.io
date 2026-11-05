@@ -1,6 +1,6 @@
 // 網路優先：有網路時永遠拿最新版（方便測試更新），沒網路時用快取離線玩。
-const CACHE = 'rustland-v1';
-const FILES = ['./', 'index.html', 'game.js', 'manifest.webmanifest', 'icon-180.png', 'icon-512.png'];
+const CACHE = 'rustland-v2';
+const FILES = ['./', 'index.html', 'game.js', 'music.js', 'ch1.js', 'ch2.js', 'manifest.webmanifest', 'icon-180.png', 'icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
