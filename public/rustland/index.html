@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>鏽境 Rustland</title>
+<meta name="description" content="鏽境：一台沉睡 287 年的維修機器人，穿越廢墟尋找中央電源的動作冒險遊戲。">
+<meta name="theme-color" content="#0b0908">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="鏽境">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root { color-scheme: dark; --teal: #4ff0d0; --rust: #d9773f; --ink: #e9e2d8; --bg: #0b0908; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); overflow: hidden;
+    overscroll-behavior: none; touch-action: none; -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none; font-family: -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; }
+  canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; height: 100dvh; display: block; }
+  #safe { position: fixed; visibility: hidden; pointer-events: none;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+  .overlay { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 24px; text-align: center; background: radial-gradient(ellipse at center, rgba(40,26,18,.92), rgba(5,4,4,.97)); z-index: 10; }
+  .overlay.show { display: flex; }
+  h1 { margin: 0; font-size: clamp(48px, 14vmin, 96px); letter-spacing: .2em; color: var(--rust);
+    text-shadow: 0 0 24px rgba(217,119,63,.45), 3px 3px 0 #3a1c10; font-weight: 900; padding-left: .2em; }
+  .sub { margin: -6px 0 10px; letter-spacing: .5em; font-size: 13px; color: #8f8174; padding-left: .5em; }
+  .chapter { color: var(--teal); font-size: 15px; letter-spacing: .15em; margin-bottom: 6px; }
+  button.menu { appearance: none; border: 1px solid #6b5242; background: rgba(30,22,17,.85); color: var(--ink);
+    font: inherit; font-size: 18px; letter-spacing: .2em; padding: 12px 0; width: min(240px, 70vw); border-radius: 4px; cursor: pointer; }
+  button.menu:active, button.menu:hover { border-color: var(--teal); color: var(--teal); }
+  button.menu.ghost { font-size: 14px; border-color: #3a2e26; color: #8f8174; }
+  .hint { font-size: 12px; color: #7a6e64; line-height: 1.7; max-width: 420px; }
+  .stats { font-size: 15px; line-height: 2; color: #cfc4b6; }
+  .stats b { color: var(--teal); font-weight: 600; }
+  .end-title { font-size: clamp(26px, 7vmin, 40px); color: var(--rust); letter-spacing: .2em; margin: 0; }
+  .soon { color: #8f8174; font-size: 14px; letter-spacing: .1em; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="safe"></div>
+
+<div id="title" class="overlay show">
+  <h1>鏽境</h1>
+  <div class="sub">RUSTLAND</div>
+  <div class="chapter">第一章　甦醒</div>
+  <button class="menu" id="btnContinue" style="display:none">繼續</button>
+  <button class="menu" id="btnNew">新遊戲</button>
+  <p class="hint" id="howto"></p>
+</div>
+
+<div id="pause" class="overlay">
+  <div class="end-title">暫停</div>
+  <button class="menu" id="btnResume">繼續遊戲</button>
+  <button class="menu ghost" id="btnTitle">回到標題</button>
+  <p class="hint">進度會在碰到充電座、取得道具時自動儲存。</p>
+</div>
+
+<div id="confirmNew" class="overlay">
+  <div class="end-title" style="font-size:22px">確定要重新開始？</div>
+  <p class="hint">目前的存檔會被覆蓋。</p>
+  <button class="menu" id="btnNewYes">重新開始</button>
+  <button class="menu ghost" id="btnNewNo">取消</button>
+</div>
+
+<div id="end" class="overlay">
+  <div class="chapter">第一章　甦醒</div>
+  <div class="end-title">— 完 —</div>
+  <div class="stats" id="endStats"></div>
+  <div class="soon">第二章「機械森林」製作中</div>
+  <button class="menu ghost" id="btnEndTitle">回到標題</button>
+</div>
+
+<script src="game.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  }
+</script>
+</body>
+</html>
