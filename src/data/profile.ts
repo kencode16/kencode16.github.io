@@ -59,6 +59,7 @@ export const profile = {
       issuer: { zh: '資訊工業策進會', en: 'Institute for Information Industry (III)' },
       date: '2026-08',
       credentials: [{ label: certificateNo, value: 'TPIPAS-CV0167:2026' }],
+      verifyUrl: 'https://www.tpipas.org.tw/pro_list1.aspx?ttp=D&no=126',
       status: 'earned',
     },
     {
