@@ -9,7 +9,7 @@ type Certification = {
 };
 
 export const profile = {
-  name: { zh: 'kencode16', en: 'kencode16' },
+  name: { zh: '吳明憲', en: 'Max Wu' },
   title: {
     zh: '資訊安全稽核｜ISO/IEC 27001',
     en: 'Information Security Auditor | ISO/IEC 27001',
