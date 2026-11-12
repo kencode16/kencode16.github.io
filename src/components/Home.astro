@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import NoteList from './NoteList.astro';
+import portrait from '../assets/profile.jpg';
 import { profile } from '../data/profile';
 import { localize, otherLang, ui, type Lang } from '../i18n';
 import { getNotes, slugOf } from '../lib/notes';
@@ -18,14 +20,17 @@ const { contact } = profile;
 
 <Base lang={lang} altPath={localize(otherLang(lang), '/')}>
   <section class="hero">
-    <span class="eyebrow">{profile.title[lang]}</span>
-    <h1>{profile.name[lang]}</h1>
-    <p class="tagline">{profile.tagline[lang]}</p>
-    <div class="actions">
-      <a class="button primary" href={localize(lang, '/notes/')}>{t.readNotes}</a>
-      <a class="button" href="#contact">{t.contactMe}</a>
-      {profile.resumeUrl && <a class="button" href={profile.resumeUrl}>{t.resume}</a>}
+    <div>
+      <span class="eyebrow">{profile.title[lang]}</span>
+      <h1>{profile.name[lang]}</h1>
+      <p class="tagline">{profile.tagline[lang]}</p>
+      <div class="actions">
+        <a class="button primary" href={localize(lang, '/notes/')}>{t.readNotes}</a>
+        <a class="button" href="#contact">{t.contactMe}</a>
+        {profile.resumeUrl && <a class="button" href={profile.resumeUrl}>{t.resume}</a>}
+      </div>
     </div>
+    <Image class="portrait" src={portrait} alt={profile.name[lang]} width={400} loading="eager" />
   </section>
 
   <section id="about">
@@ -37,14 +42,15 @@ const { contact } = profile;
     profile.certifications.length > 0 && (
       <section id="certifications">
         <h2>{t.certifications}</h2>
-        <div class="grid">
+        <div class="grid wide">
           {profile.certifications.map((cert) => (
             <div class="card cert">
               <h3>{cert.name[lang]}</h3>
               <span class:list={['badge', cert.status]}>{t.certStatus[cert.status]}</span>
               <p>
-                {cert.issuer} · {cert.year}
+                {cert.issuer[lang]} · <time datetime={cert.date}>{cert.date}</time>
               </p>
+              {cert.note && <p>{cert.note[lang]}</p>}
             </div>
           ))}
         </div>

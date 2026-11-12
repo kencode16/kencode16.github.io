@@ -3,8 +3,9 @@
 
 type Certification = {
   name: { zh: string; en: string };
-  issuer: string;
-  year: string;
+  issuer: { zh: string; en: string };
+  date: string;
+  note?: { zh: string; en: string };
   status: 'earned' | 'inProgress';
 };
 
@@ -28,14 +29,39 @@ export const profile = {
       'Along the way I noticed that a lot of security risk hides in undocumented configurations and devices nobody has inventoried. That is why I am studying ISO/IEC 27001 systematically: to bring a technical background into security auditing, so the audit covers what is actually running, not only the paperwork.',
     ],
   },
-  // 範例 / Example:
-  // {
-  //   name: { zh: 'ISO/IEC 27001:2022 主導稽核員', en: 'ISO/IEC 27001:2022 Lead Auditor' },
-  //   issuer: '發證機構 / Issuer',
-  //   year: '2026',
-  //   status: 'earned', // 或 'inProgress'
-  // },
-  certifications: [] as Certification[],
+  certifications: [
+    {
+      name: {
+        zh: 'ISO/IEC 27001:2022 資訊安全管理系統稽核員／主導稽核員訓練課程',
+        en: 'ISO/IEC 27001:2022 ISMS Auditor / Lead Auditor Training Course',
+      },
+      issuer: { zh: 'SGS', en: 'SGS' },
+      date: '2026-06',
+      note: { zh: 'CQI／IRCA 認可課程，已通過考試', en: 'CQI / IRCA certified course, exam passed' },
+      status: 'earned',
+    },
+    {
+      name: {
+        zh: '臺灣個人資料保護與管理制度（TPIPAS）個人資料驗證師',
+        en: 'TPIPAS Certified Privacy Lead Auditor',
+      },
+      issuer: { zh: '資訊工業策進會', en: 'Institute for Information Industry (III)' },
+      date: '2026-08',
+      status: 'earned',
+    },
+    {
+      name: { zh: 'Microsoft 認證：Azure AI 入門（AI-900）', en: 'Microsoft Certified: Azure AI Fundamentals (AI-900)' },
+      issuer: { zh: 'Microsoft', en: 'Microsoft' },
+      date: '2026-09',
+      status: 'earned',
+    },
+    {
+      name: { zh: 'Microsoft 認證：Azure 基礎（AZ-900）', en: 'Microsoft Certified: Azure Fundamentals (AZ-900)' },
+      issuer: { zh: 'Microsoft', en: 'Microsoft' },
+      date: '2026-02',
+      status: 'earned',
+    },
+  ] as Certification[],
   skills: [
     {
       group: { zh: '資安管理與稽核', en: 'ISMS & auditing' },
