@@ -6,8 +6,14 @@ type Certification = {
   issuer: { zh: string; en: string };
   date: string;
   note?: { zh: string; en: string };
+  credentials?: { label: { zh: string; en: string }; value: string }[];
+  verifyUrl?: string;
   status: 'earned' | 'inProgress';
 };
+
+const certificateNo = { zh: '證書編號', en: 'Certificate No.' };
+const certificationNo = { zh: '認證編號', en: 'Certification No.' };
+const credentialId = { zh: '認證識別碼', en: 'Credential ID' };
 
 export const profile = {
   name: { zh: '吳明憲', en: 'Max Wu' },
@@ -38,6 +44,11 @@ export const profile = {
       issuer: { zh: 'SGS', en: 'SGS' },
       date: '2026-06',
       note: { zh: 'CQI／IRCA 認可課程，已通過考試', en: 'CQI / IRCA certified course, exam passed' },
+      credentials: [
+        { label: certificateNo, value: '182387414 / 205567842' },
+        { label: { zh: 'CQI／IRCA 編號', en: 'CQI / IRCA No.' }, value: '716584' },
+      ],
+      verifyUrl: 'https://learning.sgs.com/certificateverify/',
       status: 'earned',
     },
     {
@@ -47,18 +58,27 @@ export const profile = {
       },
       issuer: { zh: '資訊工業策進會', en: 'Institute for Information Industry (III)' },
       date: '2026-08',
+      credentials: [{ label: certificateNo, value: 'TPIPAS-CV0167:2026' }],
       status: 'earned',
     },
     {
       name: { zh: 'Microsoft 認證：Azure AI 入門（AI-900）', en: 'Microsoft Certified: Azure AI Fundamentals (AI-900)' },
       issuer: { zh: 'Microsoft', en: 'Microsoft' },
       date: '2026-09',
+      credentials: [
+        { label: certificationNo, value: '178F4E-9D53EB' },
+        { label: credentialId, value: 'BBDFA9113A8032D4' },
+      ],
       status: 'earned',
     },
     {
       name: { zh: 'Microsoft 認證：Azure 基礎（AZ-900）', en: 'Microsoft Certified: Azure Fundamentals (AZ-900)' },
       issuer: { zh: 'Microsoft', en: 'Microsoft' },
       date: '2026-02',
+      credentials: [
+        { label: certificationNo, value: 'FA4482-63C6F7' },
+        { label: credentialId, value: 'A9E8A9113D0E9D34' },
+      ],
       status: 'earned',
     },
   ] as Certification[],

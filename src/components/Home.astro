@@ -51,6 +51,21 @@ const { contact } = profile;
                 {cert.issuer[lang]} · <time datetime={cert.date}>{cert.date}</time>
               </p>
               {cert.note && <p>{cert.note[lang]}</p>}
+              {cert.credentials && (
+                <dl class="credentials">
+                  {cert.credentials.map((credential) => (
+                    <>
+                      <dt>{credential.label[lang]}</dt>
+                      <dd>{credential.value}</dd>
+                    </>
+                  ))}
+                </dl>
+              )}
+              {cert.verifyUrl && (
+                <a href={cert.verifyUrl} target="_blank" rel="noopener">
+                  {t.verify} ↗
+                </a>
+              )}
             </div>
           ))}
         </div>
